@@ -7,8 +7,8 @@
 // @match        http://sigeduca.seduc.mt.gov.br/grh/hwmgrhcalendarioimp.aspx?2024,10995,10995%20-%20EE%20MAJOR%20OTAVIO%20PITALUGA,RONDONOPOLIS
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=gov.br
 // @grant        none
-// @updateURL
-// @downloadURL
+// @updateURL    https://github.com/lksoumon/formataCalendario/raw/refs/heads/main/formataCalendario.user.js
+// @downloadURL  https://github.com/lksoumon/formataCalendario/raw/refs/heads/main/formataCalendario.user.js
 // ==/UserScript==
 
 (function() {
