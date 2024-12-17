@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Formata Calendário
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Formata o calendário
 // @author       Lucas S. Monteiro
 // @match        http://sigeduca.seduc.mt.gov.br/grh/hwmgrhcalendarioimp.aspx*
@@ -13,6 +13,11 @@
 
 (function() {
     // Estilo para ocultar o menu durante a impressão
+
+    if(document.getElementById("TTITULO")){
+        var anoAnalise = document.getElementById("TTITULO").innerText.match(/\d{4}/);
+        anoAnalise = anoAnalise[0];
+    }
     var style = document.createElement('style');
     style.innerHTML = '@media print { #floating-menu { display: none !important; } }';
     document.head.appendChild(style);
@@ -60,7 +65,7 @@
      const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
         function formatarData(dia, mes) {
-            const ano = new Date().getFullYear();
+            const ano = anoAnalise;
             return `${("0" + dia).slice(-2)}/${("0" + mes).slice(-2)}/${ano}`;
         }
 
@@ -198,8 +203,8 @@
         }
 
         function preencherDiasDoMes(mes, eventos) {
-            const primeiroDia = new Date(new Date().getFullYear(), mes - 1, 1);
-            const ultimoDia = new Date(new Date().getFullYear(), mes, 0).getDate();
+            const primeiroDia = new Date( anoAnalise, mes - 1, 1);
+            const ultimoDia = new Date(anoAnalise, mes, 0).getDate();
             let html = '<tr>';
             for (let i = 0; i < primeiroDia.getDay(); i++) {
                 html += '<td></td>';
@@ -207,7 +212,7 @@
 
             for (let dia = 1; dia <= ultimoDia; dia++) {
                 const data = formatarData(dia, mes);
-                const info = eventos[data] || '';
+                const info = eventos[data] || '';console.log(eventos["01/04/2025"],data);
                 const cor = definirCor(info,data);
                 html += `<td style="background-color:${cor};">${dia}</td>`;
 
@@ -219,7 +224,7 @@
             return html + '</tr>';
         }
 
-        function definirCor(info,dia) {
+        function definirCor(info,dia) {//console.log(info);
             if (info.includes('CC')) return outrasCoresPasteis[4];
             if (info.includes('IB')){ Ncor++; console.log(Ncor)};
             if (info.includes('L')) {
@@ -291,7 +296,8 @@
 
                     const [dia, mes, ano] = didia.split('/');
                     // Adiciona "20" na frente do ano para converter "yy" em "yyyy"
-                    const anoCompleto = ano.length === 2 ? '20' + ano : ano;
+                    const anoCompleto = anoAnalise;
+                   // const anoCompleto = ano.length === 2 ? '20' + ano : ano;
                     didia = `${dia}/${mes}/${anoCompleto}`;
 
                 diasLetivos[didia] = discrica;
